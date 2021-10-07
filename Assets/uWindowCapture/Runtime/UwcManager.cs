@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -192,7 +193,7 @@ public class UwcManager : MonoBehaviour
 
     void UpdateMessages()
     {
-        var messages = Lib.GetMessages();
+        var messages = Lib.GetMessages().OrderBy(x => (int) x.type).ToArray();
 
         for (int i = 0; i < messages.Length; ++i) {
             var message = messages[i];

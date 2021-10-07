@@ -211,6 +211,7 @@ public class UwcWindowTexture : MonoBehaviour
         material_ = renderer_.material; // clone
         meshFilter_ = GetComponent<MeshFilter>();
         collider_ = GetComponent<Collider>();
+        transform.localScale = new Vector3(0,0,transform.localScale.z);
 
         list_.Add(this);
     }
@@ -225,7 +226,10 @@ public class UwcWindowTexture : MonoBehaviour
         UpdateSearchTiming();
         UpdateTargetWindow();
 
-        if (!isValid) {
+        if (!isValid)
+        {
+            transform.localScale = new Vector3(0, 0, 1);
+            gameObject.SetActive(false);
             material_.mainTexture = null;
             return;
         }
@@ -305,6 +309,7 @@ public class UwcWindowTexture : MonoBehaviour
         if (updateTitle && isValid) {
             window.RequestUpdateTitle();
         }
+        if(isValid && !string.IsNullOrEmpty(window.title)) name = window.title;
     }
 
     void UpdateCaptureTimer()
@@ -432,6 +437,12 @@ public class UwcWindowTexture : MonoBehaviour
         return new RayCastResult() {
             hit = false,
         };
+    }
+
+    [ContextMenu("Log Info")]
+    void LogInfo()
+    {
+        Debug.Log(nameof(isValid) + ": " + isValid);
     }
 }
 

@@ -115,6 +115,13 @@ public class UwcWindowTextureChildrenManager : MonoBehaviour
         var localX = desktopX / parent.width;
         var localY = -desktopY / parent.height;
         var localZ = dz * (window.zOrder - window.parentWindow.zOrder) / transform.localScale.z;
+
+        if (float.IsNaN(localX) || float.IsNaN(localY) || float.IsNaN(localZ) || float.IsInfinity(localX) || float.IsInfinity(localY) || float.IsInfinity(localZ))
+        {
+            child.transform.localScale = new Vector3(0, 0, 1f);
+            return;
+        }
+        
         child.transform.localPosition = new Vector3(localX, localY, localZ);
 
         var widthRatio = 1f * window.width / window.parentWindow.width;
